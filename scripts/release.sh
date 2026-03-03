@@ -41,13 +41,18 @@ rm -f Cargo.toml.bak
 # Update Cargo.lock
 cargo check --quiet 2>/dev/null || true
 
-# Commit + tag
+# Commit + tag (skip commit if version was already correct)
 git add Cargo.toml Cargo.lock
-git commit -m "release: ${TAG}"
-git tag "$TAG"
+if git diff --cached --quiet; then
+    echo "Version already at ${VERSION}, tagging current commit"
+    git tag "$TAG"
+else
+    git commit -m "release: ${TAG}"
+    git tag "$TAG"
+fi
 
 echo ""
-echo "Created commit and tag $TAG"
+echo "Created tag $TAG"
 echo ""
 echo "Push to trigger the release build:"
 echo "  git push origin main $TAG"
