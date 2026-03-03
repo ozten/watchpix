@@ -9,6 +9,18 @@
 ## Install
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/ozten/watchpix/main/scripts/install.sh | bash
+```
+
+To install a specific version:
+
+```bash
+WATCHPIX_VERSION=0.1.0 curl -fsSL https://raw.githubusercontent.com/ozten/watchpix/main/scripts/install.sh | bash
+```
+
+Or build from source:
+
+```bash
 cargo install --path .
 ```
 
