@@ -4,6 +4,8 @@
 
 `watchpix` watches a directory tree for image files, serves a web-based gallery sorted by recency, and live-updates the browser via WebSocket whenever images are created, modified, or deleted. Designed for developers and AI/ML practitioners who work on headless VMs over SSH.
 
+**Important:** watchpix only shows images under the directory you point it at. To see images scattered across your home directory, run `watchpix ~` — not `watchpix ~/some-subfolder`.
+
 ![watchpix gallery screenshot](docs/screenshot.png)
 
 ## Install
@@ -27,8 +29,11 @@ cargo install --path .
 ## Usage
 
 ```bash
-# Watch current directory, serve on port 8080
+# Watch current directory only (not your whole home directory!)
 watchpix
+
+# Watch your entire home directory
+watchpix ~
 
 # Watch a specific directory on a custom port
 watchpix ./output --port 3000
@@ -54,7 +59,7 @@ ssh -L 8080:localhost:8080 user@remote-host
 
 1. SSH into a remote VM.
 2. Agents, scripts, or training jobs are generating images on that machine.
-3. Run `watchpix` in the project root (or any parent directory).
+3. Run `watchpix <directory>` pointing at the root of wherever images are being written (e.g. `watchpix ~` to catch everything under your home directory).
 4. SSH-tunnel the port to your local machine.
 5. Open `localhost:8080` in a browser tab and leave it open.
 6. Images appear in the gallery in real time as they are created or modified, newest first.
